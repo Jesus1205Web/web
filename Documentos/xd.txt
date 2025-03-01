@@ -1,0 +1,32 @@
+ <section class="menu">
+        <h2>Menú</h2>
+        <div id="pdf-viewer"></div>
+    </section>
+    <script>
+        document.getElementById('pdf-viewer').addEventListener("contextmenu", function(event){
+            event.preventDefault();
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script>
+        const url = 'Documentos/Documentación_Residencias_.pdf';  // Reemplaza con la ruta de tu PDF
+        
+        pdfjsLib.getDocument(url).promise.then(function (pdf) {
+            const viewer = document.getElementById('pdf-viewer');
+            
+            pdf.getPage(1).then(function(page) {
+                const canvas = document.createElement('canvas');
+                viewer.appendChild(canvas);
+                const context = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 1 });
+    
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+    
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+            });
+        });
+    </script> 
